@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #productForm {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+        }
+
+        #productList {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>E-commerce</h1>
+
+    <form id="productForm">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" required>
+
+        <label for="productDescription">Description:</label>
+        <textarea id="productDescription" rows="3"></textarea>
+
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" required>
+
+        <button type="button" onclick="addProduct()">Add</button>
+    </form>
+
+    <div id="productList">
+        <h2>Product List:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="products"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function addProduct() {
+            var productName = document.getElementById('productName').value;
+            var productDescription = document.getElementById('productDescription').value;
+            var productPrice = document.getElementById('productPrice').value;
+
+          
+            var tableRow = document.createElement('tr');
+            tableRow.innerHTML = `<td>${productName}</td>
+                                  <td>${productDescription}</td>
+                                  <td>Rs ${productPrice}</td>`;
+
+            
+            document.getElementById('products').appendChild(tableRow);
+
+           
+            document.getElementById('productName').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productPrice').value = '';
+        }
+    </script>
+</body>
+</html>
