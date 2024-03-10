@@ -1,13 +1,9 @@
 **Description:**
-Developed a simple e-commerce to-do app to manage product information using HTML, CSS, and JavaScript.
+Developed an e-commerce app to manage product information using HTML, CSS, and JavaScript.
 
 Key Contributions:
 
-Designed and implemented the user interface for product input using HTML and CSS.
-Utilized JavaScript to create dynamic functionality, enabling users to add products and display them in a structured format.
-Implemented form validation to ensure the required fields are filled before adding a product.
-Structured the product display in a table format for organized presentation.
-Cleared form fields after each product addition, enhancing user experience.
+Enhancements to the e-commerce app include a user-friendly signup and login interface using HTML, CSS, and JavaScript. Robust form validation and secure authentication mechanisms were implemented for data integrity. The addition of an "Add to Cart" feature offers a seamless shopping experience. Admin functionalities allow exclusive item management, including addition, editing, and removal. Clearing form fields after each action ensures a polished user interface. The app now seamlessly integrates user and admin controls, offering an improved, comprehensive e-commerce experience.
 **Skills Applied:**
 
 HTML
