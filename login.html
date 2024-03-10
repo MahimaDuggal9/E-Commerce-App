@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - E-commerce Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://stptrans.com/wp-content/uploads/2022/01/Ecommerce-Nordics.png");
+            background-size: cover;
+        }
+
+        header {
+            
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+
+        h2 {
+
+            
+            text-align: center; 
+        }
+        .signup-link {
+    color: rgb(12, 116, 221); 
+    font-size: 1.2em; 
+    text-decoration: none; 
+    display: block;
+    margin-top: 10px;
+}
+
+.signup-link:hover {
+    text-decoration: underline; 
+}
+h2{
+    color:#0cb492;
+    font-size: 2em;
+}
+        .login-container {
+          
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0cb492;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>E-commerce Website</h1>
+    </header>
+
+    <div class="login-container">
+        <h2>Log in</h2>
+        <form onsubmit="login(event)">
+            <label for="username"><strong>Name</strong></label>
+            <input type="text" id="username" name="Name" required>
+
+            <label for="password"><strong>Password</strong></label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button><br><br>
+            <a class="signup-link" href="signup.html">Don't have an Account?</a>
+        </form>
+    </div>
+
+    <script>
+        function login(event) {
+            event.preventDefault();
+    
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var userType = localStorage.getItem("userType"); // Retrieve user type from local storage
+    
+            var storedUsernames = JSON.parse(localStorage.getItem(userType + "Usernames")) || [];
+            var storedPasswords = JSON.parse(localStorage.getItem(userType + "Passwords")) || [];
+    
+            if (username.trim() !== "" && password.trim() !== "") {
+                var userIndex = storedUsernames.indexOf(username);
+                if (userIndex !== -1 && storedPasswords[userIndex] === password) {
+                    alert("Login successful!");
+    
+                    setTimeout(function () {
+                        if (userType === "user") {
+                            window.location.href = 'user_dashboard.html';
+                        } else if (userType === "admin") {
+                            window.location.href = 'admin_dashboard.html';
+                        }
+                    }, 2000);
+                } else {
+                    alert("Invalid username or password.");
+                }
+            } else {
+                alert("Please enter both username and password.");
+            }
+        }
+    </script>
+    
+        
+</body>
+</html>

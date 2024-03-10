@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body{
+            background-image: url('https://t4.ftcdn.net/jpg/05/42/73/17/360_F_542731787_npIDENXs9NMkl1mtyHKj8De2WBL2vnFW.jpg');
+            
+            background-size: cover;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Product</h1>
+    <form id="addProductForm">
+        <label for="imageURL"><strong>Image URL:</strong></label>
+        <input type="text" id="imageURL" required><br><br>
+
+        <label for="productName"><strong>Product Name:</strong></label>
+        <input type="text" id="productName" required><br><br>
+        
+        <label for="quantity"><strong>Quantity:</strong></label>
+        <input type="number" id="quantity" required><br><br>
+        
+        <label for="price"><strong>Price:</strong></label>
+        <input type="number" id="price" required><br><br>
+        
+        <button type="button" onclick="addProduct()">Add Product</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Image URL</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody"></tbody>
+    </table>
+
+    <script>
+        function addProduct() {
+            const imageURL = document.getElementById('imageURL').value;
+            const productName = document.getElementById('productName').value;
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('price').value;
+
+            const product = {
+                imageURL: imageURL,
+                name: productName,
+                quantity: quantity,
+                price: price
+            };
+
+            const existingProducts = JSON.parse(localStorage.getItem('products')) || [];
+            existingProducts.push(product);
+            localStorage.setItem('products', JSON.stringify(existingProducts));
+
+            document.getElementById('imageURL').value = '';
+            document.getElementById('productName').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('price').value = '';
+
+            updateProductTable(); // Use the updated function here
+        }
+
+        function removeProduct(index) {
+            const existingProducts = JSON.parse(localStorage.getItem('products')) || [];
+            existingProducts.splice(index, 1);
+            localStorage.setItem('products', JSON.stringify(existingProducts));
+            updateProductTable();
+        }
+
+        function updateProductTable() {
+            const existingProducts = JSON.parse(localStorage.getItem('products')) || [];
+            const tableBody = document.getElementById('productTableBody');
+
+            tableBody.innerHTML = '';
+
+            existingProducts.forEach((product, index) => {
+                const row = tableBody.insertRow();
+                const imageURLCell = row.insertCell(0);
+                const nameCell = row.insertCell(1);
+                const quantityCell = row.insertCell(2);
+                const priceCell = row.insertCell(3);
+                const actionCell = row.insertCell(4);
+
+                imageURLCell.textContent = product.imageURL;
+                nameCell.textContent = product.name;
+                quantityCell.textContent = product.quantity;
+                priceCell.textContent = product.price;
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => removeProduct(index));
+                actionCell.appendChild(removeButton);
+            });
+        }
+        
+        displayProducts();
+        updateProductTable();
+    </script>
+</body>
+</html>

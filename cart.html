@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://img.freepik.com/free-photo/shopping-trolley-with-little-snooze_23-2147957113.jpg?size=626&ext=jpg&ga=GA1.1.1395880969.1709251200&semt=ais');
+            background-size: cover;
+        }
+
+        header {
+            color: black;
+            text-align: center;
+            padding: 1em;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .cart-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .cart-container img {
+            width: 25px;
+            margin-right: 8px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th,
+        .cart-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .cart-table th {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        .cart-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .cart-table td:last-child {
+            text-align: right;
+        }
+
+        .quantity-input {
+            width: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Cart</h1>
+    </header>
+    <div class="cart-container" onclick="window.location.href = 'product.html';">
+        <img src="https://cdn.pixabay.com/photo/2017/03/29/04/09/shopping-icon-2184065_1280.png" alt="Shopping Cart">
+        <span class="cart-badge" id="cart-badge">0</span>
+    </div>
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody id="cart-items"></tbody>
+    </table>
+    <div>Total Price: <span id="total-price"></span></div>
+    <script>
+        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        function initializeQuantity() {
+            cartItems.forEach(item => {
+                if (!item.hasOwnProperty('quantity')) {
+                    item.quantity = 1;
+                }
+            });
+        }
+
+        function calculateTotalPrice() {
+            return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        }
+
+        function displayCartItems() {
+            initializeQuantity();
+
+            var cartItemsTable = document.getElementById("cart-items");
+            cartItemsTable.innerHTML = "";
+
+            cartItems.forEach((item, index) => {
+                var row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <td>
+                        <button onclick="decreaseQuantity(${index})">-</button>
+                        <span id="quantity-${index}" class="quantity-input">${item.quantity}</span>
+                        <button onclick="increaseQuantity(${index})">+</button>
+                    </td>
+                    <td id="total-${index}">${item.price * item.quantity}</td>
+                    <td><button onclick="removeFromCart(${index})">Remove</button></td>
+                `;
+                cartItemsTable.appendChild(row);
+            });
+
+            var totalPrice = calculateTotalPrice();
+            document.getElementById("cart-badge").innerText = cartItems.length;
+            document.getElementById("total-price").innerText = "Total: " + totalPrice;
+        }
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            displayCartItems();
+        }
+
+        function increaseQuantity(index) {
+            cartItems[index].quantity++;
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            displayCartItems();
+        }
+
+        function decreaseQuantity(index) {
+            if (cartItems[index].quantity > 1) {
+                cartItems[index].quantity--;
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                displayCartItems();
+            }
+        }
+
+        displayCartItems();
+    </script>
+</body>
+
+</html>
